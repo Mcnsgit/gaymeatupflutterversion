@@ -30,6 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  geolocator: 
+  http:
+  agora_rtc_engine:
+  fluttertoast: ^8.0.8
 
 
   # The following adds the Cupertino Icons font to your application.
