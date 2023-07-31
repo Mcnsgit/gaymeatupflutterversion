@@ -1,65 +1,55 @@
-// ignore: avoid_web_libraries_in_flutter
 import 'package:flutter/material.dart';
+import 'package:gay_social_flutter_v2/methods/filter_methods.dart';
 import 'package:gay_social_flutter_v2/screens/chats_page.dart';
 import 'package:gay_social_flutter_v2/screens/user_profile.dart';
 import 'package:gay_social_flutter_v2/screens/video_call_screen.dart';
 import 'package:gay_social_flutter_v2/widgets/filter_drawer_widget.dart';
 import 'package:gay_social_flutter_v2/services/user_service.dart';
-
 import '../widgets/bottom_navigation_bar_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-  
-  get userService => null;
+  HomeScreen({Key? key}) : super(key: key);
+
+  final UserService userService =
+      UserService([]); // Initialize with an empty list
+  late final List<User> listUser = []; // Initialize with an empty list
+  final GlobalKey listViewKey =
+      GlobalKey(debugLabel: 'listViewKey'); // ListView key
+  final ScrollController scrollController =
+      ScrollController(); // Scroll controller
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home Screen"),
-        actions: [
-          Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: const Icon(Icons.filter_list),
-                onPressed: () => Scaffold.of(context).openEndDrawer(),
-              );
-            },
-          ),
-        ],
-      ),
       endDrawer: Drawer(
         child: OnlineUserFilter(
-          listUser: userService.listUser(),
-          listViewKey: GlobalKey(), // Add the required argument for 'listViewKey'
+          listUser: [],
+          listViewKey: GlobalKey(debugLabel: 'listViewKey'),
           scrollController: ScrollController(),
           currentPosition: null,
           currentLookingFor: null,
           currentAgeRange: const RangeValues(18, 75),
           currentLocation: null,
+          userName: [],
+          ageRange: const RangeValues(18, 75),
+          AgeRange: const RangeValues(18, 75),     
         ),
       ),
       body: CustomScrollView(
         controller: scrollController,
         slivers: <Widget>[
-          const SliverAppBar(
-            pinned: true,
-            floating: true,
-            expandedHeight: 0,
-            flexibleSpace: FlexibleSpaceBar(),
-          ),
+          // ...
           SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return Container(
                   color: const Color.fromARGB(255, 209, 209, 209),
                   child: Center(
-                    child: Text(
-                        'User Profile ${listUser[index].username}'), // Replace 'username' with the appropriate property representing the user's name
+                    child: Text('User Profile ${listUser[index].username}'),
                   ),
                 );
               },
-              childCount: listUser.length, // use the length of listUser
+              childCount: listUser.length,
             ),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -70,14 +60,6 @@ class HomeScreen extends StatelessWidget {
           SliverToBoxAdapter(
             child: ElevatedButton(
               onPressed: () {
-                // Apply filters when button is pressed
-                // ignore: unused_local_variable
-                List <User> listUser = userService.applyFilters(
-                  position: "Position",
-                  lookingFor: "Looking For",
-                  ageRange: const RangeValues(20, 30),
-                  location: "Location",
-                );
               },
               child: const Text('Apply Filters'),
             ),
@@ -112,19 +94,24 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-    final List<User> listUser =
-    UserService([]) as List<User>; // Replace [] with your list of users
 
 class UserService {
   UserService(List<User> users) {
     // Add your initialization logic for the UserService here
   }
+
+  List<User> listUser() {
+    // Return the list of users
+    return []; // Replace with your implementation
+  }
+
+  List<User> applyFilters({
+    String? position,
+    String? lookingFor,
+    RangeValues? ageRange,
+    String? location,
+  }) {
+    // Apply filters and return the filtered list of users
+    return []; // Replace with your implementation
+  }
 }
-
-// ListView key
-final GlobalKey listViewKey = GlobalKey(
-  debugLabel: 'listViewKey',
-);
-
-// Scroll controller
-final ScrollController scrollController = ScrollController();

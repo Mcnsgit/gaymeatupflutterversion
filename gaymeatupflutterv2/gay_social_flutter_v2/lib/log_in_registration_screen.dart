@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const HomeScreen(), // Replace HomeScreen with the actual home page of your app.
+                               HomeScreen(), // Replace HomeScreen with the actual home page of your app.
                         ),
                       );
                     } else {

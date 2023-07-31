@@ -3,23 +3,24 @@ import 'package:gay_social_flutter_v2/services/user_service.dart';
 import '../methods/filter_methods.dart' as filter_methods;
 
 
+// ignore: must_be_immutable
 class OnlineUserFilter extends StatefulWidget {
-  final List<User> listUser;
+  final List<User> userName;
   final GlobalKey listViewKey;
   final ScrollController scrollController;
   final String? currentPosition;
   final String? currentLookingFor;
-  final RangeValues ageRange;
+  late RangeValues ageRange;
   final String? currentLocation;
 
-const OnlineUserFilter({
+OnlineUserFilter({
     Key? key,
-    required this.listUser,
+    required this.userName,
     required this.listViewKey,
     required this.scrollController,
     this.currentPosition,
     this.currentLookingFor,
-    required this.ageRange,
+    ageRange,
     this.currentLocation,
   }) : super(key: key);
 
@@ -40,7 +41,7 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
   void applyFilters() {
     setState(() {
       filteredUsers = filter_methods.applyFilters(
-        users: widget.listUser,
+        users: widget.userName,
         position: widget.currentPosition,
         lookingFor: widget.currentLookingFor,
         ageRange: widget.ageRange,
