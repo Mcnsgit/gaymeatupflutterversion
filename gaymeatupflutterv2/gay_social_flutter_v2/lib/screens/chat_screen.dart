@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '/screens/video_call_screen.dart';
-import '../widgets/bottom_naviagtion_bar_widget.dart';
+import '../widgets/bottom_navigation_bar_widget.dart';
 import 'chats_page.dart';
 import 'user_profile.dart';
-import 'home_screen.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({Key? key}) : super(key: key);
@@ -13,11 +12,12 @@ class ChatScreen extends StatelessWidget {
     'Conversation 3',
   ];
   final Map<int, Widget> bottomNavScreens = {
-    0: HomeScreen(title: 'home_screen',),
     1: const ChatPageScreen(),
     2: const VideoCallScreen(),
     3: const UserProfileScreen(),
   };
+  
+  get routes => null;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,17 +42,29 @@ class ChatScreen extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BottomNavBarTransparentFb1(
-        initialRoute: '/',
         onItemTapped: (index) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => bottomNavScreens[index]!));
+          if (index == 0) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ChatPageScreen()));
+          } else if (index == 1) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ChatPageScreen()));
+          } else if (index == 2) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VideoCallScreen()));
+          } else if (index == 3) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen()));
+          }
         },
-        onChatRoute: (context) => bottomNavScreens[1]!,
-        onUserProfileRoute: (context) => bottomNavScreens[3]!,
-        onVideoCallRoute: (context) => bottomNavScreens[2]!,
-        onHomeRoute: (context) => const HomeScreen(),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../widgets/bottom_naviagtion_bar_widget.dart';
+import '../widgets/bottom_navigation_bar_widget.dart';
 import 'chat_screen.dart';
-import 'home_screen.dart';
 import 'video_call_screen.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -66,22 +65,23 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavBarTransparentFb1(
-        initialRoute: '/',
         onItemTapped: (index) {
           if (index == 0) {
-            Navigator.pushNamed(context, '/home');
           } else if (index == 1) {
-            Navigator.pushNamed(context, '/chat');
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ChatScreen()));
           } else if (index == 2) {
-            Navigator.pushNamed(context, '/video_call');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const VideoCallScreen()));
           } else if (index == 3) {
-            Navigator.pushNamed(context, '/user_profile');
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen()));
           }
         },
-        onHomeRoute: (context) => const HomeScreen(title: '',),
-        onChatRoute: (context) => ChatScreen(),
-        onUserProfileRoute: (context) => const UserProfileScreen(),
-        onVideoCallRoute: (context) => const VideoCallScreen(),
       ),
     );
   }

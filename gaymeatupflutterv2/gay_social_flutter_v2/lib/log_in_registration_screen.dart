@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              HomeScreen(title: 'Gay Meat Up',), // Replace HomeScreen with the actual home page of your app.
+                              const HomeScreen(), // Replace HomeScreen with the actual home page of your app.
                         ),
                       );
                     } else {
@@ -112,6 +112,7 @@ class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
