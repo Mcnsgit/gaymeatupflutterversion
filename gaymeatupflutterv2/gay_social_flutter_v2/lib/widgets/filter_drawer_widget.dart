@@ -18,7 +18,7 @@ class OnlineUserFilter extends StatefulWidget {
     required this.scrollController,
     required this.currentPosition,
     required this.currentLookingFor,
-    required this.currentAgeRange, required currentLocation, required List userName, required RangeValues ageRange, required RangeValues AgeRange,
+    required this.currentAgeRange, required currentLocation, required List userName, required ageRange, required GlobalKey<State<StatefulWidget>> GlobalKey,
   }) : super(key: key);
 
   @override

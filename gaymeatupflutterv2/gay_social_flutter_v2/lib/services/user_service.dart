@@ -15,7 +15,8 @@ class User {
       {required String? position,
       required String? lookingFor,
       required int? ageRange,
-      required String? location}) {}
+      required String? location,
+      required bool? isOnline}) {}
 
   listUser() {}
 }
@@ -55,7 +56,7 @@ class UserService extends ChangeNotifier {
     return users.where((user) => user.location == location).toList();
   }
 
-  List<User> filterByOnlineStatus(List<User> users) {
+  List<User> filterByOnlineStatus(List<User> users, bool isOnline, filteredUsers) {
     return users.where((user) => user.isOnline).toList();
   }
 
@@ -64,18 +65,21 @@ class UserService extends ChangeNotifier {
     String? lookingFor,
     int? ageRange,
     String? location,
+    bool? isOnline,
   }) {
     List<User> filteredUsers = users;
     filteredUsers = filterByPosition(position, filteredUsers);
     filteredUsers = filterByLookingFor(lookingFor, filteredUsers);
     filteredUsers = filterByAgeRange(ageRange, filteredUsers);
     filteredUsers = filterByLocation(location, filteredUsers);
-    filteredUsers = filterByOnlineStatus(filteredUsers);
+    filteredUsers = filterByOnlineStatus(isOnline as List<User>, isOnline!, filteredUsers);
+    return filteredUsers;
 
     notifyListeners();
 
     return filteredUsers;
   }
 
-  listUser() {}
 }
+
+  listUser() {}

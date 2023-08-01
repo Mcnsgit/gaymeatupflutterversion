@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/methods/filter_methods.dart';
 import 'package:gay_social_flutter_v2/screens/home_screen.dart';
 import 'package:gay_social_flutter_v2/widgets/filter_drawer_widget.dart';
 import 'package:provider/provider.dart';
@@ -24,16 +23,15 @@ class MyApp extends StatelessWidget {
       ),
       home: ChangeNotifierProvider<OnlineUserFilter>(
         create: (context) => OnlineUserFilter(
-          listUser: [],
-          listViewKey: GlobalKey(debugLabel: 'listViewKey'),
+          listUser: const [],
+          GlobalKey: GlobalKey(debugLabel: 'listViewKey'),
           scrollController: ScrollController(),
           currentPosition: null,
           currentLookingFor: null,
           currentAgeRange: const RangeValues(18, 75),          
           currentLocation: null,
-          userName: [],
+          userName: const [],
           ageRange: const RangeValues(18, 75),
-          AgeRange: const RangeValues(18, 75),          
         ),
         child: HomeScreen(),
       ),

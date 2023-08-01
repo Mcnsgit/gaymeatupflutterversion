@@ -6,12 +6,12 @@ import '../methods/filter_methods.dart' as filter_methods;
 // ignore: must_be_immutable
 class OnlineUserFilter extends StatefulWidget {
   final List<User> userName;
-  final GlobalKey listViewKey;
+  GlobalKey listViewKey;
   final ScrollController scrollController;
-  final String? currentPosition;
-  final String? currentLookingFor;
+  String? currentPosition;
+  String? currentLookingFor;
   late RangeValues ageRange;
-  final String? currentLocation;
+  String? currentLocation;
 
 OnlineUserFilter({
     Key? key,
@@ -46,6 +46,7 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
         lookingFor: widget.currentLookingFor,
         ageRange: widget.ageRange,
         location: widget.currentLocation,
+        isOnline: true,
       );
     });
   }
@@ -59,7 +60,7 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
           controller: widget.scrollController,
           itemCount: filteredUsers.length,
           itemBuilder: (context, index) {
-            return _buildUserCard(filteredUsers[index].username);
+            return _buildUserCard(filteredUsers[index].username, filteredUsers[index].isOnline)
           },
         ),
         // Implement the FilterSettings widget
@@ -68,7 +69,7 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
     );
   }
 
-  Widget _buildUserCard(String userName) {
+  Widget _buildUserCard(String userName, int userAge, String userPosition, String userLookingFor, [final isOnline]) {
     return Card(
       child: Column(
         children: [

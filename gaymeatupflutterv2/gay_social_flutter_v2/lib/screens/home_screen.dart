@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/methods/filter_methods.dart';
 import 'package:gay_social_flutter_v2/screens/chats_page.dart';
 import 'package:gay_social_flutter_v2/screens/user_profile.dart';
 import 'package:gay_social_flutter_v2/screens/video_call_screen.dart';
@@ -23,16 +22,15 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       endDrawer: Drawer(
         child: OnlineUserFilter(
-          listUser: [],
+          listUser: const [],
           listViewKey: GlobalKey(debugLabel: 'listViewKey'),
           scrollController: ScrollController(),
           currentPosition: null,
           currentLookingFor: null,
           currentAgeRange: const RangeValues(18, 75),
           currentLocation: null,
-          userName: [],
+          userName: const [],
           ageRange: const RangeValues(18, 75),
-          AgeRange: const RangeValues(18, 75),     
         ),
       ),
       body: CustomScrollView(
