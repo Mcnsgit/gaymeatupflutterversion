@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gay_social_flutter_v2/services/user_service.dart';
 import '../methods/filter_methods.dart' as filter_methods;
 
-
 // ignore: must_be_immutable
 class OnlineUserFilter extends StatefulWidget {
   final List<User> userName;
@@ -13,15 +12,14 @@ class OnlineUserFilter extends StatefulWidget {
   late RangeValues ageRange;
   String? currentLocation;
 
-OnlineUserFilter({
+  OnlineUserFilter( dynamic listUser, {
     Key? key,
     required this.userName,
-    required this.listViewKey,
     required this.scrollController,
     this.currentPosition,
     this.currentLookingFor,
     ageRange,
-    this.currentLocation,
+    this.currentLocation, required GlobalKey<State<StatefulWidget>> listViewKey,
   }) : super(key: key);
 
   @override
@@ -46,7 +44,6 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
         lookingFor: widget.currentLookingFor,
         ageRange: widget.ageRange,
         location: widget.currentLocation,
-        isOnline: true,
       );
     });
   }
@@ -60,7 +57,9 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
           controller: widget.scrollController,
           itemCount: filteredUsers.length,
           itemBuilder: (context, index) {
-            return _buildUserCard(filteredUsers[index].username, filteredUsers[index].isOnline)
+            return _buildUserCard(
+              filteredUsers[index].username, filteredUsers[index].age, filteredUsers[index].position, filteredUsers[index].lookingFor,
+            );
           },
         ),
         // Implement the FilterSettings widget
@@ -69,7 +68,8 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
     );
   }
 
-  Widget _buildUserCard(String userName, int userAge, String userPosition, String userLookingFor, [final isOnline]) {
+  Widget _buildUserCard(String userName, int userAge, String userPosition,
+      String userLookingFor) {
     return Card(
       child: Column(
         children: [

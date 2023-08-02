@@ -75,11 +75,7 @@ class UserService extends ChangeNotifier {
     filteredUsers = filterByOnlineStatus(isOnline as List<User>, isOnline!, filteredUsers);
     return filteredUsers;
 
-    notifyListeners();
 
-    return filteredUsers;
   }
-
-}
-
   listUser() {}
+}

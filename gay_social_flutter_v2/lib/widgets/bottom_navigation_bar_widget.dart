@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class BottomNavBarTransparentFb1 extends StatefulWidget {
+class BottomNavigationBar extends StatefulWidget {
   final ValueChanged<int> onItemTapped;
-  const BottomNavBarTransparentFb1({
+  const BottomNavigationBar({
     Key? key,
     required this.onItemTapped,
   }) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _BottomNavBarTransparentFb1State createState() => 
-  _BottomNavBarTransparentFb1State();
+  _BottomNavigationBarState createState() => 
+  _BottomNavigationBarState();
 }
 
-class _BottomNavBarTransparentFb1State
-    extends State<BottomNavBarTransparentFb1> {
+class _BottomNavigationBarState
+    extends State<BottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     double height = 56;

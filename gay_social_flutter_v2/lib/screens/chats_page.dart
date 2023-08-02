@@ -33,7 +33,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
             icon: const Icon(Icons.info),
             onPressed: _toggleChatInfoDrawer,
           ),
-        ],
+        ], endDrawer:,
       ),
       body: Column(
         children: [
