@@ -24,7 +24,7 @@ class User {
 class UserService extends ChangeNotifier {
   final List<User> users;
 
-  UserService(this.users);
+  UserService(this.users, Type user);
 
   List<User> filterByPosition(String? position, List<User> users) {
     if (position == null || position.isEmpty) {

@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/services/user_service.dart';
-import '../methods/filter_methods.dart' as filter_methods;
+import '../backend/models/user_model.dart';
 
 // ignore: must_be_immutable
 class OnlineUserFilter extends StatefulWidget {
-  final List<User> userName;
   GlobalKey listViewKey;
   final ScrollController scrollController;
   String? currentPosition;
   String? currentLookingFor;
   late RangeValues ageRange;
   String? currentLocation;
-
-  OnlineUserFilter( dynamic listUser, {
+  List<User>? userName;
+  OnlineUserFilter(
+    dynamic listUser, {
     Key? key,
+    required this.listViewKey,
     required this.userName,
     required this.scrollController,
     this.currentPosition,
     this.currentLookingFor,
-    ageRange,
-    this.currentLocation, required GlobalKey<State<StatefulWidget>> listViewKey,
+    dynamic ageRange,
+    this.currentLocation,
   }) : super(key: key);
-
   @override
   // ignore: library_private_types_in_public_api
   _OnlineUserFilterState createState() => _OnlineUserFilterState();
@@ -29,23 +28,18 @@ class OnlineUserFilter extends StatefulWidget {
 
 class _OnlineUserFilterState extends State<OnlineUserFilter> {
   List<User> filteredUsers = [];
-
   @override
   void initState() {
     super.initState();
     applyFilters();
   }
 
-  void applyFilters() {
-    setState(() {
-      filteredUsers = filter_methods.applyFilters(
-        users: widget.userName,
-        position: widget.currentPosition,
-        lookingFor: widget.currentLookingFor,
-        ageRange: widget.ageRange,
-        location: widget.currentLocation,
-      );
-    });
+void applyFilters() {
+    filteredUsers = ListView as List<User>;
+widget.userName != null
+        ? widget.userName!
+        
+        .cast<User>():filteredUsers; 
   }
 
   @override
@@ -58,7 +52,10 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
           itemCount: filteredUsers.length,
           itemBuilder: (context, index) {
             return _buildUserCard(
-              filteredUsers[index].username, filteredUsers[index].age, filteredUsers[index].position, filteredUsers[index].lookingFor,
+              filteredUsers[index].username,
+              filteredUsers[index].age,
+              filteredUsers[index].position,
+              filteredUsers[index].lookingFor,
             );
           },
         ),

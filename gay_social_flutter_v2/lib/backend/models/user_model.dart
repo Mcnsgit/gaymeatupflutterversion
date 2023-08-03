@@ -25,6 +25,8 @@ class User {
     );
   }
 
+  String get username => null;
+
   // Method to convert a User object to a map (JSON-like object)
   Map<String, dynamic> toJson() {
     return {

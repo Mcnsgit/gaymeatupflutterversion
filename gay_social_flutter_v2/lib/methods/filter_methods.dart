@@ -6,7 +6,7 @@ List<User> applyFilters({
   required String? position,
   required String? lookingFor,
   required RangeValues? ageRange,
-  required String? location,
+  required String? location, required listView, List<User>? listUser, required bool isOnline,
 }) {
   List<User> filteredUsers = users;
   filteredUsers = filterByPosition(position, filteredUsers);

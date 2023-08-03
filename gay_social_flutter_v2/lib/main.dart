@@ -4,8 +4,6 @@ import 'package:gay_social_flutter_v2/screens/chat_screen.dart';
 import 'package:gay_social_flutter_v2/screens/user_profile.dart';
 import 'package:gay_social_flutter_v2/screens/video_call_screen.dart';
 import 'package:gay_social_flutter_v2/services/filter_settings.dart';
-import '/services/online_user_filter_widget.dart';,
-import 'backend/models/user_model.dart';
 import 'services/location_service.dart';
 
 void main() {
@@ -34,7 +32,7 @@ class MyApp extends StatelessWidget {
           builder: (context) => Scaffold(
             appBar: AppBar(
               title: const Text('Error'),
-              endDrawer: const Drawer(),
+              endDrawer:  const Drawer(),
             ),
           ),
         );
@@ -59,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
     currentLookingFor: null,
     currentLocation: null,
     currentAgeRange: const RangeValues(20, 30),   
-    _buildUserCard: _buildUserCard
   );
 late ScrollController scrollController;
 

@@ -1,66 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:gay_social_flutter_v2/services/user_service.dart';
 import '/widgets/bottom_navigation_bar_widget.dart';
-import '../services/online_user_filter_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
+  
+  onItemTapped(int i) {}
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late UserService userService = UserService();
+  late UserService userService =  UserService(
+    List as List<User> ,User,
+  );
   final GlobalKey listViewKey = GlobalKey(debugLabel: 'listViewKey');
   final ScrollController scrollController = ScrollController();
-  final bottomNavigationBar = BottomAppBar(
-    child: SizedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            NavBarIcon(
-              text: "Home",
-              icon: Icons.home,
-              selected: true,
-              onPressed: () {},
-            ),
-            NavBarIcon(
-              text: "Video Call",
-              icon: Icons.videocam,
-              selected: false,
-              onPressed: () {},
-            ),
-            NavBarIcon(
-              text: "Chats",
-              icon: Icons.chat_bubble_rounded,
-              selected: false,
-              onPressed: () {},
-            ),
-            NavBarIcon(
-              text: "Profile",
-              icon: Icons.person,
-              selected: false,
-              onPressed: () {},
-            )
-          ],
-        ),
-      ),
+  final BottomAppBar bottomNavigationBar = const BottomAppBar(
+    
+  );
+  @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Home'),
+          endDrawer: const Drawer(),
+          ),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            key: listViewKey,
+          )
+        ), 
+        bottomNavigationBar:
+          BottomAppBar(
+            elevation: 0,
+              child: SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,                     children: [
+                    NavBarIcon(
+                      text: "Home",
+                      icon: Icons.home,
+                      selected: false,
+                      onPressed: () => widget.onItemTapped(0),
+                    ),
+                    NavBarIcon(
+                      text: "Video Call",
+                      icon: Icons.videocam,
+                      selected: false,
+                      onPressed: () => widget.onItemTapped(1),
+                    ),
+                    NavBarIcon(
+                      text: "Chats",
+                      icon: Icons.chat_bubble_rounded,
+                      selected: false,
+                      onPressed: () => widget.onItemTapped(2),
+                    ),
+                    NavBarIcon(
+                      text: "Profile",
+                      icon: Icons.person,
+                      selected: false,
+                      onPressed: () => widget.onItemTapped(3),
+                    ),
+                  ],
+                ),
+              )
+          ),
       );
-      // @override
-      //   Widget build(BuildContext context) {
-      //     return Scaffold(
-      //       appBar: AppBar(
-      //       title: const Text('Home'),
-      //       endDrawer: Drawer(
-      //         child: OnlineUserFilter(
-      //           userName: _listUserCard(),
-      //           duration: const Duration(),
-      //           tween: Tween(),
-      //           builder: (BuildContext context, dynamic value, Widget? child) {
-      //             return Container();
-      //           },
-      //         ), userName,
+    }
+} 
+        //  ), userName,
       //         listViewKey: GlobalKey (debugLabel: 'listViewKey'),
       //     scrollController: scrollController,
       //     currentPosition: currentPosition,
@@ -93,62 +104,29 @@ class _HomeScreenState extends State<HomeScreen> {
       //     ),
       //   ],
       // ),
-      bottomNavigationBar: BottomAppBar(
-      elevation: 0,
-      child: SizedBox(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            NavBarIcon(
-              text: "Home",
-              icon: Icons.home,
-              selected: true,
-              onPressed: () => widget.onItemTapped(0),),
-            NavBarIcon(
-              text: "Video Call",
-              icon: Icons.videocam,
-              selected: false,
-              onPressed: () => widget.onItemTapped(1),
-            ),
-            NavBarIcon(
-              text: "Chats",
-              icon: Icons.chat_bubble_rounded,
-              selected: false,
-              onPressed: () => widget.onItemTapped(2),
-            ),
-            NavBarIcon(
-              text: "Profile",
-              icon: Icons.person,
-              selected: false,
-              onPressed: () => widget.onItemTapped(3),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+    
+
 
 
   // Initial values for filter parameters
-  String? currentPosition = 'Software Developer';
-  String? currentLookingFor = 'Friends';
-  RangeValues ageRange = RangeValues(20, 50);
-  String? currentLocation = 'California';
+  // String? currentPosition = 'Software Developer';
+  // String? currentLookingFor = 'Friends';
+  // RangeValues ageRange = RangeValues(20, 50);
+  // String? currentLocation = 'California';
 
-  List<User>? _listUser;
+  // List<User>? _listUser;
 
-  List<User>? get listUser {
-    return _listUser;
-  }
+  // List<User>? get listUser {
+  //   return _listUser;
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchUsers();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   fetchUsers();
+  // }
 
-  fetchUsers() async {
-    _listUser = await userService.listUser();
-    setState(() {});
-  }
+  // fetchUsers() async {
+  //   _listUser = await userService.listUser();
+  //   setState(() {});
+  // }

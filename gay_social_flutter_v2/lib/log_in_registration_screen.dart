@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        endDrawer: const Drawer(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -126,6 +127,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration'),
+        endDrawer: const Drawer(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

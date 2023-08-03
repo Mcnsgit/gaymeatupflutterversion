@@ -125,12 +125,14 @@ class FilterSettings extends StatefulWidget {
   final Function(FilterSettingsData) onApplyFilters;
   final FilterSettingsData filterSettingsData;
   final LocationService locationService;
+  
+  var listUser = LocationService.listUser;
 
-  const FilterSettings({
-    Key? key,
+  FilterSettings({
+  Key? key,
     required this.onApplyFilters,
     required this.filterSettingsData,
-    required this.locationService, required LocationService LocationService,
+    required this.locationService, required this.listUser, required LocationService,
   }) : super(key: key);
 
   @override
