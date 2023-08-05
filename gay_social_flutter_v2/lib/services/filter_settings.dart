@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/services/location_service.dart';
-import '../Services/location_service.dart';
 
 // ignore: must_be_immutable
 class OnlineUserFilter extends StatefulWidget {
@@ -83,7 +81,7 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
           bottom: 16,
           left: 16,
           child: Text(
-              'Current Location: ${widget.filterSettingsData.currentLocation}'),
+              'Current Location: ${widget.filterSettingsData.getLocation!}'),
         ),
       ],
     );
@@ -110,29 +108,28 @@ class FilterSettingsData {
   List<String>? listUser;
   String? currentPosition;
   String? currentLookingFor;
-  String? currentLocation;
+  String? getLocation;
   RangeValues currentAgeRange;
 
   FilterSettingsData(
       {this.listUser,
       this.currentPosition,
       this.currentLookingFor,
-      this.currentLocation,
+      this.getLocation,
       required this.currentAgeRange});
 }
 
 class FilterSettings extends StatefulWidget {
   final Function(FilterSettingsData) onApplyFilters;
   final FilterSettingsData filterSettingsData;
-  final LocationService locationService;
+  final FilterSettingsData getLocation;
   
-  var listUser = LocationService.listUser;
 
-  FilterSettings({
+  const FilterSettings({
   Key? key,
     required this.onApplyFilters,
     required this.filterSettingsData,
-    required this.locationService, required this.listUser, required LocationService,
+    required this.getLocation, required locationService, required List<BuildContext> listUser,
   }) : super(key: key);
 
   @override

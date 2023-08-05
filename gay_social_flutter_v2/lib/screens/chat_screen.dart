@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '/screens/video_call_screen.dart';
-import '../widgets/bottom_navigation_bar_widget.dart';
+import '../widgets/nav_widget.dart'as nav;
 import 'chats_page.dart';
 import 'user_profile.dart';
 
@@ -13,7 +13,7 @@ class ChatScreen extends StatelessWidget {
   ];
   final Map<int, Widget> bottomNavScreens = {
     1: const ChatPageScreen(),
-    2: const VideoCallScreen(),
+    2: const VideoCallScreen(key: Key('VideoCallScreen'),),
     3: const UserProfileScreen(),
   };
   
@@ -23,6 +23,7 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chat Screen'),
+        endDrawer: const Drawer(),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -41,31 +42,8 @@ class ChatScreen extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: BottomNavBarTransparentFb1(
-        onItemTapped: (index) {
-          if (index == 0) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ChatPageScreen()));
-          } else if (index == 1) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ChatPageScreen()));
-          } else if (index == 2) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const VideoCallScreen()));
-          } else if (index == 3) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const UserProfileScreen()));
-          }
-        },
-      ),
+      bottomNavigationBar: const nav.Nav(),
+        
     );
   }
 }

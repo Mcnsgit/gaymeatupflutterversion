@@ -4,7 +4,6 @@ class User {
   final String position;
   final String lookingFor;
   final String location;
-
   User({
     required this.name,
     required this.age,
@@ -12,9 +11,6 @@ class User {
     required this.lookingFor,
     required this.location,
   });
-
-
-  // Factory method to create a User object from a map (JSON-like object)
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       name: json['name'],
@@ -24,10 +20,7 @@ class User {
       location: json['location'],
     );
   }
-
-  String get username => null;
-
-  // Method to convert a User object to a map (JSON-like object)
+  String get username => name;
   Map<String, dynamic> toJson() {
     return {
       'name': name,
@@ -45,12 +38,17 @@ class UserFilter {
   final int age;
   final String location;
   final bool isOnline;
-
-  UserFilter(this.position, this.lookingFor, this.age, this.location, this.isOnline);
-
-  get username => null;
-
-  applyFilters({required String position, required String lookingFor, required var ageRange, required String location}) {}
-
-  listUser() {}
+  UserFilter(
+      this.position, this.lookingFor, this.age, this.location, this.isOnline);
+  // Removed the unnecessary getter username
+  void applyFilters(
+      {required String position,
+      required String lookingFor,
+      required var ageRange,
+      required String location}) {
+    // Implement the logic to apply filters
+  }
+  void listUser() {
+    // Implement the logic to list users
+  }
 }

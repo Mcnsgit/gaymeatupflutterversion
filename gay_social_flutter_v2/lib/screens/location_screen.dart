@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '/Services/location_service.dart';
+import '../widgets/nav_widget.dart' as nav;
 
 class LocationScreen extends StatefulWidget {
   final LocationService locationService;
@@ -36,6 +37,7 @@ class _LocationScreenState extends State<LocationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Location'),
+        endDrawer: const Drawer(),
       ),
       body: Center(
         child: Column(
@@ -52,6 +54,7 @@ class _LocationScreenState extends State<LocationScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: const nav.Nav()
     );
   }
 }

@@ -1,0 +1,6 @@
+{
+    "editor.tabCompletion": "on",
+    "diffEditor.codeLens": true,
+    "MutableAI.upsell": true,
+    "codeium.enableSearch": true
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/nav_widget.dart' as nav;
 
 class ChatPageScreen extends StatefulWidget {
   const ChatPageScreen({Key? key}) : super(key: key);
@@ -21,19 +22,14 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
         title: const Text('Chat with User'),
+        endDrawer: const Drawer(),
         actions: [
           IconButton(
             icon: const Icon(Icons.info),
             onPressed: _toggleChatInfoDrawer,
           ),
-        ], endDrawer:,
+        ], 
       ),
       body: Column(
         children: [
@@ -76,40 +72,7 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.video_call),
-            label: 'Video Call',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: 1, // Set the index of the current item
-        onTap: (index) {
-          // Handle bottom navigation bar item tap here
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home');
-          } else if (index == 1) {
-            // You are already on the Chat Page, no need to navigate again
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/video_call');
-          } else if (index == 3) {
-            Navigator.pushNamed(context, '/user_profile');
-          }
-        },
-      ),
-      // Chat info drawer
+      bottomNavigationBar: const nav.Nav(),
       endDrawer: _isChatInfoDrawerOpen
           ? Drawer(
               child: Container(

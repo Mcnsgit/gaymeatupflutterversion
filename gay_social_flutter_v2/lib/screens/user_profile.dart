@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import '../widgets/bottom_navigation_bar_widget.dart';
-import 'chat_screen.dart';
-import 'video_call_screen.dart';
+import '../widgets/nav_widget.dart' as nav;
+
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
+      
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Profile'),
+        endDrawer: const Drawer(),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -64,25 +65,7 @@ class UserProfileScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavBarTransparentFb1(
-        onItemTapped: (index) {
-          if (index == 0) {
-          } else if (index == 1) {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ChatScreen()));
-          } else if (index == 2) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const VideoCallScreen()));
-          } else if (index == 3) {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const UserProfileScreen()));
-          }
-        },
-      ),
+      bottomNavigationBar: const nav.Nav(),
     );
   }
 }

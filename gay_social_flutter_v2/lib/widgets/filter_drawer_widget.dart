@@ -1,34 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/screens/location_screen.dart';
 import '../Services/location_service.dart';
 
-// ignore: must_be_immutable
-class OnlineUserFilter extends StatefulWidget {
-  final List<String>? listUser;
-  final GlobalKey listViewKey;
+class FilterDrawerWidget extends StatefulWidget {
   final ScrollController scrollController;
-  String? currentPosition;
-  String? currentLookingFor;
-  RangeValues currentAgeRange;
-
-  OnlineUserFilter({
+  final FilterSettingsData filterSettingsData;
+  const FilterDrawerWidget({
     Key? key,
-    required this.listUser,
-    required this.listViewKey,
     required this.scrollController,
-    required this.currentPosition,
-    required this.currentLookingFor,
-    required this.currentAgeRange, required currentLocation, required List userName, required ageRange, required GlobalKey<State<StatefulWidget>> GlobalKey,
+    required this.filterSettingsData,
   }) : super(key: key);
-
   @override
   // ignore: library_private_types_in_public_api
-  _OnlineUserFilterState createState() => _OnlineUserFilterState();
+  _FilterDrawerWidgetState createState() => _FilterDrawerWidgetState();
 }
 
-class _OnlineUserFilterState extends State<OnlineUserFilter> {
+class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
   late List<String> _filteredUsers = [];
-
   @override
   void initState() {
     super.initState();
@@ -36,129 +23,60 @@ class _OnlineUserFilterState extends State<OnlineUserFilter> {
   }
 
   @override
-  void didUpdateWidget(covariant OnlineUserFilter oldWidget) {
-    if (widget.listUser != oldWidget.listUser ||
-        widget.currentPosition != oldWidget.currentPosition ||
-        widget.currentLookingFor != oldWidget.currentLookingFor ||
-        widget.currentAgeRange != oldWidget.currentAgeRange) {
+  void didUpdateWidget(covariant FilterDrawerWidget oldWidget) {
+    if (widget.filterSettingsData != oldWidget.filterSettingsData) {
       _filterUsers();
     }
     super.didUpdateWidget(oldWidget);
   }
 
   void _filterUsers() {
-    _filteredUsers = widget.listUser!
+    _filteredUsers = widget.filterSettingsData.listUser!
         .where((user) =>
-            (_isPositionMatching(user)) &&
-            (_isLookingForMatching(user)) &&
-            (_isAgeRangeMatching(user)))
+            _isPositionMatching(user) &&
+            _isLookingForMatching(user) &&
+            _isAgeRangeMatching(user))
         .toList();
   }
 
   bool _isPositionMatching(String user) {
-    return widget.currentPosition == null ||
-        widget.currentPosition!.isEmpty ||
-        user.contains(widget.currentPosition!);
+    return widget.filterSettingsData.currentPosition == null ||
+        widget.filterSettingsData.currentPosition!.isEmpty ||
+        user.contains(widget.filterSettingsData.currentPosition!);
   }
 
   bool _isLookingForMatching(String user) {
-    return widget.currentLookingFor == null ||
-        widget.currentLookingFor!.isEmpty ||
-        user.contains(widget.currentLookingFor!);
+    return widget.filterSettingsData.currentLookingFor == null ||
+        widget.filterSettingsData.currentLookingFor!.isEmpty ||
+        user.contains(widget.filterSettingsData.currentLookingFor!);
   }
 
   bool _isAgeRangeMatching(String user) {
     final age = int.tryParse(user.substring(1));
     if (age != null) {
-      return age >= widget.currentAgeRange.start &&
-          age <= widget.currentAgeRange.end;
+      return age >= widget.filterSettingsData.currentAgeRange.start &&
+          age <= widget.filterSettingsData.currentAgeRange.end;
     }
     return false;
   }
-
-  // Create an instance of the location service
-  final LocationService _locationService = LocationService();
-  String _currentLocation = '';
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         ListView.builder(
-          key: widget.listViewKey,
+          
           controller: widget.scrollController,
           itemCount: _filteredUsers.length,
           itemBuilder: (context, index) {
             return _buildUserCard(_filteredUsers[index]);
           },
         ),
-        FilterSettings(
-          currentAgeRange: widget.currentAgeRange,
-          currentPosition: widget.currentPosition,
-          currentLookingFor: widget.currentLookingFor,
-          currentLocation: _currentLocation,
-          onApplyFilters: (ageRange, position, lookingFor, location) {
-            setState(() {
-              widget.currentAgeRange = ageRange;
-              widget.currentPosition = position;
-              widget.currentLookingFor = lookingFor;
-              _filterUsers();
-              _currentLocation = location!;
-            });
-          },
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            String chosenLocation = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LocationScreen(
-                  locationService: _locationService,
-                  key: widget.listViewKey,
-                  initialRoute: '',
-                ),
-              ),
-            );
-            setState(() {
-              _currentLocation = chosenLocation;
-            });
-          },
-          child: const Text('Set Location'),
-        ),
         Positioned(
           bottom: 16,
           left: 16,
-          child: Text('Current Location: $_currentLocation'),
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            // When the user taps on the location button, open the location screen
-            String chosenLocation = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LocationScreen(
-                  locationService: _locationService,
-                  key: widget.listViewKey,
-                  initialRoute: '',
-                ),
-              ),
-            );
-            // Update the chosen location if the user selected a location
-            setState(() {
-              _currentLocation = chosenLocation;
-            });
-          },
-          child: const Text('Set Location'),
-        ),
-        Positioned(
-          bottom: 16,
-          left: 16,
-          child: Text('Current Location: $_currentLocation'),
-        ),
-        Positioned(
-          bottom: 16,
-          left: 16,
-          child: Text('Current Location: $_currentLocation'),
+          child: Text(
+              'Current Location: ${widget.filterSettingsData.currentLocation}'),
         ),
       ],
     );
@@ -181,28 +99,33 @@ Widget _buildUserCard(String user) {
   );
 }
 
-// ignore: must_be_immutable
-class FilterSettings extends StatefulWidget {
-  final void Function(
-    RangeValues ageRange,
-    String? position,
-    String? lookingFor,
-    String? location,
-  ) onApplyFilters;
+class FilterSettingsData {
+  List<String>? listUser;
+  String? currentPosition;
+  String? currentLookingFor;
+  String? currentLocation;
   RangeValues currentAgeRange;
-  final String? currentPosition;
-  final String? currentLookingFor;
-  final String? currentLocation;
+  FilterSettingsData({
+    this.listUser,
+    this.currentPosition,
+    this.currentLookingFor,
+    this.currentLocation,
+    required this.currentAgeRange,
+  });
 
-  FilterSettings({
+  get getLocation => null;
+}
+
+class FilterSettings extends StatefulWidget {
+  final Function(FilterSettingsData) onApplyFilters;
+  final FilterSettingsData filterSettingsData;
+  final LocationService locationService;
+  const FilterSettings({
     Key? key,
     required this.onApplyFilters,
-    required this.currentAgeRange,
-    required this.currentPosition,
-    required this.currentLookingFor,
-    required this.currentLocation,
+    required this.filterSettingsData,
+    required this.locationService,
   }) : super(key: key);
-
   @override
   // ignore: library_private_types_in_public_api
   _FilterSettingsState createState() => _FilterSettingsState();
@@ -211,6 +134,13 @@ class FilterSettings extends StatefulWidget {
 class _FilterSettingsState extends State<FilterSettings> {
   String? _currentPosition;
   String? _currentLookingFor;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentPosition = widget.filterSettingsData.currentPosition;
+    _currentLookingFor = widget.filterSettingsData.currentLookingFor;
+  }
 
   List<DropdownMenuItem<String>> _getPositionDropdownItems() {
     return [
@@ -294,26 +224,23 @@ class _FilterSettingsState extends State<FilterSettings> {
           ),
           const SizedBox(height: 8),
           RangeSlider(
-            values: widget.currentAgeRange,
+            values: widget.filterSettingsData.currentAgeRange,
             min: 18,
             max: 75,
             divisions: 57,
             labels: RangeLabels(
-              widget.currentAgeRange.start.round().toString(),
-              widget.currentAgeRange.end.round().toString(),
+              widget.filterSettingsData.currentAgeRange.start
+                  .round()
+                  .toString(),
+              widget.filterSettingsData.currentAgeRange.end.round().toString(),
             ),
             onChanged: (RangeValues values) {
               setState(() {
-                widget.currentAgeRange = values;
+                widget.filterSettingsData.currentAgeRange = values;
               });
             },
             onChangeEnd: (RangeValues values) {
-              widget.onApplyFilters(
-                values,
-                _currentPosition,
-                _currentLookingFor,
-                widget.currentLocation,
-              );
+              widget.onApplyFilters(widget.filterSettingsData);
             },
           ),
           const SizedBox(height: 8),
@@ -328,6 +255,7 @@ class _FilterSettingsState extends State<FilterSettings> {
             onChanged: (String? value) {
               setState(() {
                 _currentPosition = value;
+                widget.filterSettingsData.currentPosition = value;
               });
             },
           ),
@@ -343,6 +271,7 @@ class _FilterSettingsState extends State<FilterSettings> {
             onChanged: (String? value) {
               setState(() {
                 _currentLookingFor = value;
+                widget.filterSettingsData.currentLookingFor = value;
               });
             },
           ),
@@ -354,12 +283,7 @@ class _FilterSettingsState extends State<FilterSettings> {
           const SizedBox(height: 10),
           ElevatedButton(
             onPressed: () {
-              widget.onApplyFilters(
-                widget.currentAgeRange,
-                _currentPosition,
-                _currentLookingFor,
-                widget.currentLocation,
-              );
+              widget.onApplyFilters(widget.filterSettingsData);
             },
             child: const Text('Apply Filters'),
           ),
@@ -368,3 +292,70 @@ class _FilterSettingsState extends State<FilterSettings> {
     );
   }
 }
+
+// class _FilterSettingsState extends State<FilterSettings> {
+// //   String? _currentPosition;
+// //   String? _currentLookingFor;
+//   List<DropdownMenuItem<String>> _getPositionDropdownItems() {
+//     // Implement the logic to generate dropdown items for positions
+//     return [
+//       const DropdownMenuItem<String>(
+//         value: '',
+//         child: Text('Any'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Top',
+//         child: Text('Top'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Top Vers',
+//         child: Text('Top Vers'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Vers',
+//         child: Text('Vers'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Side',
+//         child: Text('Side'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Bottom Vers',
+//         child: Text('Bottom Vers'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Bottom',
+//         child: Text('Bottom'),
+//       ),
+//     ];
+//   }
+
+//   List<DropdownMenuItem<String>> _getLookingForDropdownItems() {
+//     return [
+//       const DropdownMenuItem<String>(
+//         value: '',
+//         child: Text('Any'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Now Host',
+//         child: Text('Now Host'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Cruising',
+//         child: Text('Cruising'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Car',
+//         child: Text('Car'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Chat',
+//         child: Text('Chat'),
+//       ),
+//       const DropdownMenuItem<String>(
+//         value: 'Cam',
+//         child: Text('Cam'),
+//       ),
+//     ];
+//   }
+// }
