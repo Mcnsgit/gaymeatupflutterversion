@@ -9,10 +9,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Flutter Runner
-  # You may pin to the exact commit or the version.
-  # uses: jddeep/Flutter-Runner@56254d611d8b799e297ab6f81ab4ec5dd0d128a2
-      uses: jddeep/Flutter-Runner@1.2.0
+      
+    - name: flutter-cli
+      uses: steebchen/flutter@55019e0f56278a7c84949e8e17c66e8f79d67290
+      
       
     - name: Install dependencies
       run: flutter pub get
