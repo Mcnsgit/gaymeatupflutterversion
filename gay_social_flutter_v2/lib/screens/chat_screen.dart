@@ -1,49 +1,55 @@
 import 'package:flutter/material.dart';
-import '/screens/video_call_screen.dart';
-import '../widgets/nav_widget.dart'as nav;
-import 'chats_page.dart';
-import 'user_profile.dart';
+import '/widgets/message_bubble.dart';
+import '/widgets/message_text_field.dart';
 
 class ChatScreen extends StatelessWidget {
-  ChatScreen({Key? key}) : super(key: key);
-  final List<String> conversations = [
-    'Conversation 1',
-    'Conversation 2',
-    'Conversation 3',
-  ];
-  final Map<int, Widget> bottomNavScreens = {
-    1: const ChatPageScreen(),
-    2: const VideoCallScreen(key: Key('VideoCallScreen'),),
-    3: const UserProfileScreen(),
-  };
-  
-  get routes => null;
+  const ChatScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat Screen'),
+        title: const Text('Chat'),
+        centerTitle: true,
         endDrawer: const Drawer(),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
-      body: ListView.builder(
-        itemCount: conversations.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(conversations[index]),
-            onTap: () {
-              // Handle conversation tap using a state management solution
-            },
-          );
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.separated(
+              padding: const EdgeInsets.only(bottom: 16),
+              reverse: true,
+              itemCount: _messages.length,
+              itemBuilder: (_, index) => _messages[index],
+              separatorBuilder: (_, index) => const SizedBox(height: 16),
+            ),
+          ),
+          const MessageTextField()
+        ],
       ),
-      bottomNavigationBar: const nav.Nav(),
-        
     );
   }
+
+  static const _messages = <MessageBubble>[
+    MessageBubble(
+      profileImageUrl:
+          'https://images.unsplash.com/photo-1511367461989-f85a21fda167?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+      message: 'Hello',
+      date: 'August 1, 11:09 AM',
+    ),
+    MessageBubble(
+      message: 'lorem jgrfhgjf',
+      date: 'August 1, 11:09 AM',
+    ),
+    MessageBubble(
+      profileImageUrl:
+          'https ://images.unsplash.com/photo-1650419743194-c28ccbbcb7b8',
+      message: 'This app would be perfect if it had video chat!',
+      date: 'Apr 22, 5:47 PM',
+    ), // MessageBubble
+    MessageBubble(
+      message: 'Vivamus sollicitudin lectus vitae aliquet cursus.',
+      date: 'Apr 22, 3:23 PM',
+    ),
+  ];
 }

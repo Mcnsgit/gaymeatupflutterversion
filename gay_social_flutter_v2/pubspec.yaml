@@ -32,17 +32,16 @@ dependencies:
     sdk: flutter
   geolocator: 
   http:
-  agora_rtc_engine: 6.2.1
+  agora_uikit: 
   collection: 1.17.1
-  iris_method_channel: 1.1.0
   matcher: 0.12.15
   source_span: 1.9.1
   stack_trace: 1.11.0
   stream_channel: 2.1.1
-  test_api: ^0.5.1
+  test_api: 0.5.1
   provider: 6.0.5
-  
-
+  english_words: 4.0.0
+  flutter_provider: 
 
 
 

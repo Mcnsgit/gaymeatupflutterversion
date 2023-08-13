@@ -1,0 +1,47 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "Flutter",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "Flutter: Attach to Device",
+            "type": "dart",
+            "request": "attach"
+        },
+        {
+            "name": "gay_social_flutter_v2",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "gay_social_flutter_v2 (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "gay_social_flutter_v2 (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "Flutter (iPhone 14 Plus)",
+            "program": "lib/main.dart",
+            "deviceId": "AE360735-6359-4A07-93D7-D5FD27B9F341",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

@@ -1,13 +1,18 @@
 import 'package:flutter/foundation.dart';
 
 class User {
+  final String name;
   final String position;
   final String lookingFor;
   final int age;
   final String location;
   final bool isOnline;
+  final String profilePictureUrl;
 
-  User(this.position, this.lookingFor, this.age, this.location, this.isOnline);
+  final String? id;
+
+  User(this.position, this.lookingFor, this.age, this.location, this.isOnline,
+      this.profilePictureUrl, this.name, this.id);
 
   get username => null;
 
@@ -40,7 +45,7 @@ class UserService extends ChangeNotifier {
     return users.where((user) => user.lookingFor == lookingFor).toList();
   }
 
-  List<User> filterByAgeRange( var ageRange, List<User> users) {
+  List<User> filterByAgeRange(var ageRange, List<User> users) {
     if (ageRange == null) {
       return users;
     }
@@ -56,7 +61,8 @@ class UserService extends ChangeNotifier {
     return users.where((user) => user.location == location).toList();
   }
 
-  List<User> filterByOnlineStatus(List<User> users, bool isOnline, filteredUsers) {
+  List<User> filterByOnlineStatus(
+      List<User> users, bool isOnline, filteredUsers) {
     return users.where((user) => user.isOnline).toList();
   }
 
@@ -72,10 +78,10 @@ class UserService extends ChangeNotifier {
     filteredUsers = filterByLookingFor(lookingFor, filteredUsers);
     filteredUsers = filterByAgeRange(ageRange, filteredUsers);
     filteredUsers = filterByLocation(location, filteredUsers);
-    filteredUsers = filterByOnlineStatus(isOnline as List<User>, isOnline!, filteredUsers);
+    filteredUsers =
+        filterByOnlineStatus(isOnline as List<User>, isOnline!, filteredUsers);
     return filteredUsers;
-
-
   }
+
   listUser() {}
 }

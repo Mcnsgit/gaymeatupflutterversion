@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/screens/home_screen.dart';
+import 'main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,8 +16,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/background.png'),
+        )
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+        backgroundColor: const Color(0xffFF8527),
+        elevation: 1,
+        leading: IconButton(
+          icon: const Icon(Icons.keyboard_arrow_left, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: const Text('Login'),
         endDrawer: const Drawer(),
       ),
@@ -75,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                            const HomePage(), // Replace HomeScreen with the actual home page of your app.
+                            const MyHomePage(), // Replace HomeScreen with the actual home page of your app.
                         ),
                       );
                     } else {
@@ -105,7 +118,8 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
+    )
+  );  
   }
 }
 
@@ -127,7 +141,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration'),
-        endDrawer: const Drawer(),
+        endDrawer:const Drawer(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:gay_social_flutter_v2/screens/video_call_screen.dart';
+
+import '../screens/chat_screen.dart';
 
 class Nav extends StatefulWidget {
   const Nav({Key? key}) : super(key: key);
-
 
   @override
   // ignore: library_private_types_in_public_api
   _NavState createState() => _NavState();
 }
+
 class _NavState extends State<Nav> {
   int selectedIndex = 0;
   void onItemTapped(int index) {
@@ -15,6 +18,7 @@ class _NavState extends State<Nav> {
       selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +38,13 @@ class _NavState extends State<Nav> {
                 text: "Video Call",
                 icon: Icons.videocam,
                 selected: selectedIndex == 1,
-                onPressed: () => onItemTapped(1),
+                onPressed: () => const VideoCallScreen(),
               ),
               NavBarIcon(
                 text: "Chats",
                 icon: Icons.chat_bubble_rounded,
                 selected: selectedIndex == 2,
-                onPressed: () => onItemTapped(2),
+                onPressed: () => const ChatScreen(),
               ),
               NavBarIcon(
                 text: "Profile",
@@ -55,6 +59,7 @@ class _NavState extends State<Nav> {
     );
   }
 }
+
 class NavBarIcon extends StatelessWidget {
   final String text;
   final IconData icon;
