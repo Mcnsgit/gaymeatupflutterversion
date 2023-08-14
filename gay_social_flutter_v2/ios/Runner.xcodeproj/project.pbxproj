@@ -13,7 +13,6 @@
 		49F3C13E2A7E6F2200024B41 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94DF9F72C458E87FF48D457C /* Pods_Runner.framework */; };
 		49F3C13F2A7E6F2200024B41 /* Pods_Runner.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 94DF9F72C458E87FF48D457C /* Pods_Runner.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49F3C1412A7E701C00024B41 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = 49F3C1402A7E701C00024B41 /* ios */; };
-		49F3C1422A7E701C00024B41 /* ios in Resources */ = {isa = PBXBuildFile; fileRef = 49F3C1402A7E701C00024B41 /* ios */; };
 		53CFDC8B7FBA74EDAE3ADED6 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36C2E15D6490DED9A22D33CA /* Pods_RunnerTests.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -258,7 +257,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49F3C1422A7E701C00024B41 /* ios in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

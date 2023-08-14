@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/widgets/filter_drawer_widget.dart';
+import 'package:gay_social_flutter_v2/screens/home_screen.dart';
 import 'widgets/nav_widget.dart' as nav;
+
+void main() => runApp(const HomeScreen(title: 'Pronto Pigs',));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +38,8 @@ class MyHomePage extends StatelessWidget {
           ),
       floatingActionButton: const FloatingActionButton(onPressed: null),
       bottomNavigationBar: const nav.Nav(),
-      body: const Column(
-        children: [
-          Text('A random idea:'),
-          Text('appState.current'), // Placeholder
-        ],
-      ),
-      endDrawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              padding: const EdgeInsets.all(0),
-              child: FilterDrawerWidget(
-                scrollController: ScrollController(),
-                filterSettingsData: FilterSettingsData(
-                  listUser: [],
-                  currentPosition: '',
-                  currentLookingFor: '',
-                  currentAgeRange: const RangeValues(20, 30),
-                ),
-                onApplyFilters: (FilterSettingsData newFilter) {},
-              ),
-            ),
-          ],
-        ),
-      ),
-      // body: ...
     );
   }
 }
+
+  

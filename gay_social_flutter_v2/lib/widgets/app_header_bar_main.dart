@@ -1,43 +1,81 @@
 import 'package:flutter/material.dart';
-import 'package:gay_social_flutter_v2/screens/home_screen.dart';
+import 'package:provider/provider.dart';
+import 'nav_widget.dart' as nav;
 
-void main() => runApp(const HomeScreen(title: 'Gay Meat Up',));
+class AppBarNotifier extends ChangeNotifier {
+  String _title = 'Default Title';
+
+  String get title => _title;
+
+  void updateTitle(String newTitle) {
+    _title = newTitle;
+    notifyListeners();
+  }
+}
 
 class AppBarApp extends StatelessWidget {
-  const AppBarApp({super.key});
+  final List<IconButton>? actions;
+
+  const AppBarApp({Key? key, this.actions}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(title: 'Gay Meat Up',),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(Provider.of<AppBarNotifier>(context).title),
+          endDrawer: const Drawer(),
+        ),
+        body: const SliverAppBar(),
+      ),
     );
   }
 }
 
-class SliverAppBarExample extends StatefulWidget {
-  const SliverAppBarExample({super.key});
+class SliverAppBarNotifier extends ChangeNotifier {
+  bool _pinned = false;
+  double _expandedHeight = 160.0;
+  FlexibleSpaceBar _flexibleSpace = const FlexibleSpaceBar(title: Text('Default'));
 
-  @override
-  State<SliverAppBarExample> createState() => _SliverAppBarExampleState();
+  bool get pinned => _pinned;
+  double get expandedHeight => _expandedHeight;
+  FlexibleSpaceBar get flexibleSpace => _flexibleSpace;
+
+  void setPinned(bool value) {
+    _pinned = value;
+    notifyListeners();
+  }
+
+  void setExpandedHeight(double value) {
+    _expandedHeight = value;
+    notifyListeners();
+  }
+
+  void setFlexibleSpace(FlexibleSpaceBar value) {
+    _flexibleSpace = value;
+    notifyListeners();
+  }
 }
 
-class _SliverAppBarExampleState extends State<SliverAppBarExample> {
-  bool _pinned = false;
+class SliverAppBar2 extends StatefulWidget {
+  const SliverAppBar2({Key? key, required Text title}) : super(key: key);
 
-// [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
-// turn can be placed in a [Scaffold.body].
+  @override
+  State<SliverAppBar2> createState() => _SliverAppBar2State();
+}
+
+class _SliverAppBar2State extends State<SliverAppBar2> {
   @override
   Widget build(BuildContext context) {
+    final appBarNotifier = Provider.of<SliverAppBarNotifier>(context);
+
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
           SliverAppBar(
-            pinned: _pinned,
-            expandedHeight: 160.0,
-            flexibleSpace: const FlexibleSpaceBar(
-              title: Text('SliverAppBar'),
-              background: FlutterLogo(),
-            ),
+            pinned: appBarNotifier.pinned,
+            expandedHeight: appBarNotifier.expandedHeight,
+            flexibleSpace: appBarNotifier.flexibleSpace,
           ),
           const SliverToBoxAdapter(
             child: SizedBox(
@@ -63,31 +101,8 @@ class _SliverAppBarExampleState extends State<SliverAppBarExample> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: OverflowBar(
-            overflowAlignment: OverflowBarAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text('pinned'),
-                  Switch(
-                    onChanged: (bool val) {
-                      setState(() {
-                        _pinned = val;
-                      });
-                    },
-                    value: _pinned,
-                  ),
-                ],                
-              ),
-              ],
-            ),
-          },
-        ),
-      ),
+      bottomNavigationBar: const nav.Nav(),
     );
   }
 }
+

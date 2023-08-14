@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Services/location_service.dart';
+// import '../Services/location_service.dart';
 
 // /**
 //  * A widget that displays a list of filtered users based on the filter settings provided.
@@ -11,7 +11,7 @@ import '../Services/location_service.dart';
 class FilterDrawerWidget extends StatefulWidget {
   final ScrollController scrollController;
   final FilterSettingsData filterSettingsData;
-  final void Function(FilterSettingsData newFilter) onApplyFilters;
+  final Function(FilterSettingsData newFilter) onApplyFilters;
 
   const FilterDrawerWidget({
     Key? key,
@@ -110,13 +110,11 @@ class FilterSettingsData {
 class FilterSettings extends StatefulWidget {
   final Function(FilterSettingsData) onApplyFilters;
   final FilterSettingsData filterSettingsData;
-  final LocationService locationService;
 
   const FilterSettings({
     Key? key,
     required this.onApplyFilters,
     required this.filterSettingsData,
-    required this.locationService,
   }) : super(key: key);
 
   @override
@@ -125,101 +123,98 @@ class FilterSettings extends StatefulWidget {
 }
 
 class _FilterSettingsState extends State<FilterSettings> {
-  String? currentPosition;
-  String? currentLookingFor;
-  String? currentLocation;
-  _getLookingForDropdownItems() => _getLookingForDropdownItems();
-  _getPositionDropdownItems() => _getPositionDropdownItems();
+  late FilterSettingsData _filterSettingsData;
 
   @override
   void initState() {
     super.initState();
-    currentPosition = widget.filterSettingsData.currentPosition;
-    currentLookingFor = widget.filterSettingsData.currentLookingFor;
+    _filterSettingsData = widget.filterSettingsData;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text('Position:', style: TextStyle(fontSize: 14)),
-        const SizedBox(height: 10),
-        DropdownButton<String>(
-          value: currentPosition,
-          items: _getPositionDropdownItems(),
-          onChanged: (newValue) {
-            setState(() {
-              currentPosition = newValue;
-            });
-          },
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            DropdownButton<String>(
+              value: _filterSettingsData.currentPosition,
+              hint: const Text('Choose Position'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _filterSettingsData.currentPosition = newValue;
+                });
+              },
+              items: <String>['Manager', 'Employee', 'Intern']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            DropdownButton<String>(
+              value: _filterSettingsData.currentLookingFor,
+              hint: const Text('Looking For'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _filterSettingsData.currentLookingFor = newValue;
+                });
+              },
+              items: <String>['Now', 'Later', 'Never']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            ),
+            Text('Age Range: ${_filterSettingsData.currentAgeRange.start.round()} - ${_filterSettingsData.currentAgeRange.end.round()}'),
+            RangeSlider(
+              values: _filterSettingsData.currentAgeRange,
+              min: 10,
+              max: 60,
+              divisions: 50,
+              onChanged: (RangeValues values) {
+                setState(() {
+                  _filterSettingsData.currentAgeRange = values;
+                });
+              },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                widget.onApplyFilters(_filterSettingsData);
+                Navigator.pop(context);
+              },
+              child: const Text('Apply Filters'),
+            ),
+          ],
         ),
-        DropdownButton<String>(
-          value: currentLookingFor,
-          items: _getLookingForDropdownItems(),
-          onChanged: (newValue) {
-            setState(() {
-              currentLookingFor = newValue;
-            });
-          },
-        ),
-        ElevatedButton(
-          onPressed: () => widget.locationService.getCurrentLocation(),
-          child: const Text('Fetch Current Position'),
-        ),
-        const SizedBox(height: 10),
-        const Text('Looking For:', style: TextStyle(fontSize: 14)),
-        const SizedBox(height: 10),
-
-        // Assuming you have a similar function for `getCurrentLookingFor`
-        // ElevatedButton(
-        //   onPressed: getCurrentLookingFor,
-        //   child: const Text('Fetch Current Looking For'),
-        // ),
-        RangeSlider(
-          values: widget.filterSettingsData.currentAgeRange,
-          min: 18,
-          max: 100,
-          divisions: 100,
-          labels: RangeLabels(
-            '${widget.filterSettingsData.currentAgeRange.start}',
-            '${widget.filterSettingsData.currentAgeRange.end}',
-          ),
-          onChanged: (RangeValues values) {
-            setState(() {
-              widget.filterSettingsData.currentAgeRange = values;
-            });
-          },
-        ),
-        const SizedBox(height: 10),
-        const Text('Location:', style: TextStyle(fontSize: 14)),
-        const SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: _applyFilters,
-          child: const Text('Apply Filters'),
-        ),
-      ],
+      ),
     );
   }
+}
 
   // Assuming currentPosition and currentLookingFor are Widgets, place them here
   // currentPosition,
   // currentLookingFor,
 
   // [Add your other UI components here]
-  void _applyFilters() {
-    widget.onApplyFilters(
-      FilterSettingsData(
-        listUser: widget
-            .filterSettingsData.listUser, // or your modified list of users
-        currentPosition: currentPosition,
-        currentLookingFor: currentLookingFor,
-        currentLocation: widget
-            .filterSettingsData.currentLocation, // or your updated location
-        currentAgeRange: widget.filterSettingsData.currentAgeRange,
-      ),
-    );
-  }
-}
+//   void _applyFilters() {
+//     widget.onApplyFilters(
+//       FilterSettingsData(
+//         listUser: widget
+//             .filterSettingsData.listUser, // or your modified list of users
+//         currentPosition: currentPosition,
+//         currentLookingFor: currentLookingFor,
+//         currentLocation: widget
+//             .filterSettingsData.currentLocation, // or your updated location
+//         currentAgeRange: widget.filterSettingsData.currentAgeRange,
+//       ),
+//     );
+//   }
+// }
 // class _FilterSettingsState extends State<FilterSettings> {
 // //   String? _currentPosition;
 // //   String? _currentLookingFor;

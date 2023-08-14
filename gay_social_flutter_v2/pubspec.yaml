@@ -30,10 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  geolocator: 
-  http:
-  agora_uikit: 
-  collection: 1.17.1
+  
+  agora_uikit: 1.3.6 
   matcher: 0.12.15
   source_span: 1.9.1
   stack_trace: 1.11.0
@@ -41,8 +39,7 @@ dependencies:
   test_api: 0.5.1
   provider: 6.0.5
   english_words: 4.0.0
-  flutter_provider: 
-
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -53,7 +50,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

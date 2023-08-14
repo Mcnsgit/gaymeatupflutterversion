@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_header_bar_main.dart';
-import 'package:flutter_provider/flutter_provider.dart';
 
 const routeHome = '/';
 const routeSettings = '/filterDrawer';
@@ -10,87 +8,27 @@ const routeDeviceSetupStartPage = 'find_devices';
 const routeDeviceSetupSelectDevicePage = 'select_device';
 const routeDeviceSetupConnectingPage = 'connecting';
 const routeDeviceSetupFinishedPage = 'finished';
-//  The main function initializes the Flutter application and sets up the MaterialApp with a dark theme. It also defines the routes for different screens.
-void main() {
-  runApp(
-    MaterialApp(
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blue,
-        ),
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Colors.blue,
-        ),
-      ),
-      onGenerateRoute: (filterDrawer) {
-        late Widget page;
-        if (filterDrawer.name == routeHome) {
-          page = const HomeScreen(title: 'Gay Meat Up',);
-        } else if (filterDrawer.name == routeSettings) {
-          page = FilterDrawerScreen(
-            onApplyFilters: (filterSettingsData) {},
-          );
-        // } else if (filterDrawer.name!.startsWith(routePrefixDeviceSetup)) {
-        //   final subRoute =
-        //       filterDrawer.name!.substring(routePrefixDeviceSetup.length);
-        //   page = SetupFlow(
-        //     setupPageRoute: subRoute,
-        } else {
-          throw Exception('Unknown route: ${filterDrawer.name}');
-        }
 
-        return MaterialPageRoute<dynamic>(
-          builder: (context) {
-            return page;
-          },
-          settings: filterDrawer,
-        );
-      },
-      debugShowCheckedModeBanner: false,
-    ),
-  );
-}
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key, required String title});
-
-  static const appTitle = 'Gay Meat Up';
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: appTitle,
-      home: HomeScreen(title: appTitle),
-    );
-  }
-}
-
-class _HomeScreen extends StatefulWidget {
-  const _HomeScreen({required this.title});
-
+class HomeScreen extends StatefulWidget {
   final String title;
 
+const HomeScreen({Key? key, required this.title}) : super(key: key);
+
   @override
-  State<_HomeScreen> createState() => _HomeScreenState();
+  // ignore: library_private_types_in_public_api
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<_HomeScreen> {
-  SliverAppBar2 appBar = const SliverAppBar2();
+class _HomeScreenState extends State<HomeScreen> {
+  final FilterSettingsData currentFilterSettings =
+      FilterSettingsData(currentAgeRange: const RangeValues(0, 100));
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Profile',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Settings',
-      style: optionStyle,
-    ),
+    Text('Index 0: Home', style: optionStyle),
+    Text('Index 1: Profile', style: optionStyle),
+    Text('Index 2: Settings', style: optionStyle),
   ];
 
   void _onItemTapped(int index) {
@@ -102,11 +40,31 @@ class _HomeScreenState extends State<_HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const SliverAppBar2(),
-      body: Center(
-        child: _widgetOptions[_selectedIndex],
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 160.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text('Welcome'),
+              background: Image.asset('path_to_image', fit: BoxFit.cover),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.filter_list_outlined),
+                onPressed: () {
+                  Navigator.pushNamed(context, routeSettings);
+                },
+              ),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: _widgetOptions[_selectedIndex],
+          ),
+          // ... (rest of the slivers)
+        ],
       ),
-          endDrawer: Drawer(
+      endDrawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -120,9 +78,7 @@ class _HomeScreenState extends State<_HomeScreen> {
               title: const Text('Home'),
               selected: _selectedIndex == 0,
               onTap: () {
-                // Update the state of the app
                 _onItemTapped(0);
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
@@ -130,9 +86,7 @@ class _HomeScreenState extends State<_HomeScreen> {
               title: const Text('Profile'),
               selected: _selectedIndex == 1,
               onTap: () {
-                // Update the state of the app
                 _onItemTapped(1);
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
@@ -140,98 +94,13 @@ class _HomeScreenState extends State<_HomeScreen> {
               title: const Text('Settings'),
               selected: _selectedIndex == 2,
               onTap: () {
-                // Update the state of the app
                 _onItemTapped(2);
-                // Then close the drawer
                 Navigator.pop(context);
               },
             ),
           ],
         ),
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Welcome'),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.filter_list_outlined),
-          onPressed: () {
-            Navigator.pushNamed(context, routeSettings);
-          },
-        ),
-      ],
-    );
-  }
-
-  List<User> onlineUsers = [
-    // Example user data
-    User(position: 'top', lookingFor: 'now', location: 'Uk', age: 25),
-    User(position: 'vers', lookingFor: 'now', location: 'UK', age: 30),
-    // ... Add more users as needed
-  ];
-
-  void _filterUsers(FilterSettingsData filterData) {
-    setState(() {
-      onlineUsers = onlineUsers.where((user) {
-        bool matchesPosition = filterData.currentPosition == null ||
-            user.position == filterData.currentPosition;
-        bool matchesLookingFor = filterData.currentLookingFor == null ||
-            user.lookingFor == filterData.currentLookingFor;
-        bool matchesLocation = filterData.getLocation == null ||
-            user.location == filterData.getLocation;
-        bool matchesAgeRange = user.age >= filterData.currentAgeRange.start &&
-            user.age <= filterData.currentAgeRange.end;
-
-        return matchesPosition &&
-            matchesLookingFor &&
-            matchesLocation &&
-            matchesAgeRange;
-      }).toList();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: ListView.builder(
-        itemCount: onlineUsers.length,
-        itemBuilder: (context, index) =>
-            ListTile(title: Text(onlineUsers[index].position)),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                FilterDrawerScreen(onApplyFilters: _filterUsers),
-          ));
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: const Text('Welcome'),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.filter_list_outlined),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => FilterDrawerScreen(
-                  onApplyFilters: _filterUsers,
-                ),
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }
@@ -244,10 +113,11 @@ class FilterDrawerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // For the sake of brevity, the body is simplified.
-    // You can put any filter options inside the body.
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: AppBar(
+        title: const Text('User Filter'),
+        endDrawer: const Drawer(),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -258,7 +128,6 @@ class FilterDrawerScreen extends StatelessWidget {
                 // For the sake of the example, I'm creating dummy filterData.
                 // In reality, this should be constructed based on user's selections in the filter screen.
                 FilterSettingsData filterData = FilterSettingsData(
-                  listUser: [], // Example list
                   currentPosition: 'Manager',
                   currentLookingFor: null,
                   getLocation: 'US',
@@ -272,12 +141,6 @@ class FilterDrawerScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: const Text('User Filter'),
     );
   }
 }
@@ -296,19 +159,16 @@ class User {
 }
 
 class FilterSettingsData {
-  List<String>? listUser;
   String? currentPosition;
   String? currentLookingFor;
   String? getLocation;
   RangeValues currentAgeRange;
 
-  FilterSettingsData({
-    this.listUser,
-    this.currentPosition,
-    this.currentLookingFor,
-    this.getLocation,
-    required this.currentAgeRange,
-  });
+  FilterSettingsData(
+      {this.currentPosition,
+      this.currentLookingFor,
+      this.getLocation,
+      required this.currentAgeRange});
 }
 
 
@@ -439,8 +299,8 @@ class FilterSettingsData {
 //     );
 //   }
 
-//   PreferredSizeWidget _buildFlowAppBar() {
-//     return AppBar(
+//    _buildFlowAppBar() {
+//     return SliverAppBar2(
 //       leading: IconButton(
 //         onPressed: _onExitPressed,
 //         icon: const Icon(Icons.chevron_left),

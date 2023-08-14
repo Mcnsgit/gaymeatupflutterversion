@@ -3,5 +3,6 @@
     "diffEditor.codeLens": true,
     "MutableAI.upsell": true,
     "codeium.enableSearch": true,
-    "cmake.sourceDirectory": "/Users/Miguel/GitHub/software dev Portfolio/gaymeatupflutterversion/gay_social_flutter_v2/linux/flutter"
+    "cmake.sourceDirectory": "/Users/Miguel/GitHub/software dev Portfolio/gaymeatupflutterversion/gay_social_flutter_v2/linux/flutter",
+    "C_Cpp.errorSquiggles": "disabled"
 }
