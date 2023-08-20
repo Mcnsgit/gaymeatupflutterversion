@@ -11,6 +11,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+    - run:  dart analyze
     - name: Flutter Latest
       uses: geowatson/flutter-latest@1.0.1
     - name: flutter-cli
