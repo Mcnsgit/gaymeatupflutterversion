@@ -11,9 +11,16 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - run:  dart analyze
-    - name: Flutter Latest
-      uses: geowatson/flutter-latest@1.0.1
+    - run:  actions/checkout@v3
+
+    - name: Setup Flutter SDK
+
+    - uses: flutter-actions/setup-flutter@v2.2
+      name: flutter install
+      id: 3.0.2
+    # Cache the installed Flutter SDK. Default: fa
+    - uses: flutter ugrade@v3.0.2
+    
     - name: flutter-cli
       uses: steebchen/uses:/steebchen/flutter@v1.1.0
       
