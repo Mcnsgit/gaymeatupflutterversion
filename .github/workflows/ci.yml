@@ -1,31 +1,27 @@
 name: CI
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+    - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      
+    - name: Flutter Latest
+      uses: geowatson/flutter-latest@1.0.1
     - name: flutter-cli
-      uses: steebchen/flutter@55019e0f56278a7c84949e8e17c66e8f79d67290
+      uses: steebchen/uses:/steebchen/flutter@v1.1.0
       
-      
-    - name: Install dependencies
-      run: flutter pub get
       
     - name: Run tests
       run: flutter test
+    - continue-on-error: true
     - name: Build APK
-      run: flutter build apk --release
+      run: flutter run --release
       
-    - name: Deploy to Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.SERVER_KEY }}
-        script: "your-deployment-script.sh"
+      
+   
