@@ -1,24 +1,23 @@
 // import 'package:flutter/material.dart';
 // import '../widgets/nav_widget.dart' as nav;
 
-
 // class UserProfileScreen extends StatelessWidget {
 //   const UserProfileScreen({Key? key}) : super(key: key);
-      
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return Container (
-//        appBar: const AppBar(
+//     return Container(
+//       appBar: const AppBar(
 //         backgroundColor: const Color(0xffFF8527),
 //         elevation: 1,
 //         leading: IconButton(
 //           icon: const Icon(Icons.keyboard_arrow_left, color: Colors.white),
 //           onPressed: () => Navigator.pop(context),
-//         ),        
-//         title: const Text('User Profile', 
-//        ),
-//       endDrawer: const Drawer(),
+//         ),
+//         title: Text(
+//           'User Profile',
+//         ),
+//         endDrawer: const Drawer(),
 //       ),
 //       body: Padding(
 //         padding: const EdgeInsets.all(16.0),
